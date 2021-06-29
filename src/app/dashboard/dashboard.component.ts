@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {TimeCard} from "../../types";
+import {Response, TimeCard} from "../../types";
 import {interval, Subject} from "rxjs";
 import {Title} from "@angular/platform-browser";
 import {PontomaisService} from "../pontomais.service";
@@ -22,6 +22,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   periods: TimeCard[][] = [];
 
+  response?: Response;
   notifier = new Subject;
 
   constructor(private title: Title, private pontomais: PontomaisService) {
@@ -32,17 +33,25 @@ export class DashboardComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.notifier))
       .subscribe(this.tick.bind(this));
 
-    // TODO: request backend
-    const request = this.pontomais.request();
+    this
+      .pontomais
+      .request()
+      .subscribe(data => {
+        this.response = data;
+        this.boot();
+        this.tick();
+      });
 
-    this.shiftDuration = request.work_day.shift_time;
-    this.periods = _.chunk(request.work_day.time_cards, 2);
-    this.tick();
   }
 
   ngOnDestroy(): void {
     this.notifier.next();
     this.notifier.complete();
+  }
+
+  boot() {
+    this.shiftDuration = this.response!.work_day.shift_time;
+    this.periods = _.chunk(this.response!.work_day.time_cards, 2);
   }
 
   tick() {

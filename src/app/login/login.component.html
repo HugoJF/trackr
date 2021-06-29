@@ -1,1 +1,29 @@
-<p>login works!</p>
+<div class="flex flex-col mx-auto max-w-[32rem] text-black space-y-4">
+  <app-title>Trackr</app-title>
+
+  <app-input
+    name="token"
+    label="Access token"
+    type="text"
+    [control]="token"
+  ></app-input>
+
+  <app-input
+    name="client"
+    label="Client ID"
+    type="text"
+    [control]="client"
+  ></app-input>
+
+  <app-input
+    name="uid"
+    label="UID"
+    type="uid"
+    [control]="uid"
+  ></app-input>
+
+  <div class="pt-4">
+    <button (click)="login()" class="duration-150 w-full py-3 text-white bg-blue-800 hover:bg-blue-700 rounded">Go to
+      dashboard</button>
+  </div>
+</div>

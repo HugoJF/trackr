@@ -1,0 +1,18 @@
+<app-field [name]="name" [label]="label" [error]="getErrorMessage()">
+  <input
+    autocomplete="off"
+    [id]="name"
+    [name]="name"
+    [formControl]="control"
+    [type]="type"
+    (blur)="hasBlurred = true"
+    [ngClass]="{
+      'transition-colors duration-500': true,
+      'block w-full py-3 px-5 placeholder-gray-400 text-gray-700': true,
+      'focus:outline-none focus:ring focus:shadow-sm': true,
+      'border border-lg rounded': true,
+      'ring-red-200 border-red-500': this.canDisplayErrors() && getErrorMessage(),
+      'ring-blue-500 focus:border-blue-500': !this.canDisplayErrors()
+    }"
+  />
+</app-field>

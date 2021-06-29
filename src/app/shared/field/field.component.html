@@ -1,0 +1,19 @@
+<label
+  [for]="name"
+  [ngClass]="{
+    'pb-2': true,
+    'text-red-500': this.error,
+    'text-white': !this.error
+  }"
+>
+  {{label}}
+</label>
+
+<ng-content></ng-content>
+
+<p
+  *ngIf="this.error"
+  class="text-sm text-red-500 font-medium tracking-tight"
+>
+  {{this.error}}
+</p>

@@ -99,7 +99,13 @@ export interface Meta {
   ip: string;
 }
 
-export interface Response222 {
+export interface Response {
   work_day: WorkDay;
   meta: Meta;
+}
+
+export interface PontomaisCredentials {
+  token: string;
+  client: string;
+  uid: string;
 }
