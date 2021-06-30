@@ -2,8 +2,13 @@
   <div class="flex justify-between items-baseline container mx-auto">
     <p>{{ now | date: 'EEEE — MMMM dd' }}</p>
 
-    <button class="px-3 py-2 duration-150 hover:bg-blue-800 border-2 border-blue-800 rounded" (click)="logout()">
-      Logout
-    </button>
+    <div class="space-x-4">
+      <button class="px-3 py-2 duration-150 hover:bg-blue-800 border-2 border-blue-800 rounded" (click)="refresh()">
+        Refresh
+      </button>
+      <button class="px-3 py-2 duration-150 hover:bg-blue-800 border-2 border-blue-800 rounded" (click)="logout()">
+        Logout
+      </button>
+    </div>
   </div>
 </div>

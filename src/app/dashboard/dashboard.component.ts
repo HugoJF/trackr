@@ -37,7 +37,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     this
       .pontomais
-      .request()
+      .response
       .subscribe(data => {
         this.response = data;
         this.boot();
@@ -45,6 +45,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.loading = false;
       });
 
+    this.pontomais.request();
   }
 
   ngOnDestroy(): void {

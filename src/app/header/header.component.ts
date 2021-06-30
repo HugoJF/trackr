@@ -16,6 +16,10 @@ export class HeaderComponent implements OnInit {
     this.now = new Date;
   }
 
+  refresh(): void {
+    this.api.request();
+  }
+
   logout(): void {
     this.api.clearCredentials();
     this.router.navigateByUrl('login');

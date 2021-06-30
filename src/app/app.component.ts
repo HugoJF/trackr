@@ -2,18 +2,11 @@ import {Component} from '@angular/core';
 
 /*
   [ ] replace lodash with individual components before upload
-  [ ] call api
   [ ] add login with tutorial
-  [ ] add guards
-  [ ] add information about today
-  [ ] add logic to not registered
   [ ] localization
   [ ] tests?
-  [ ] componentization
   [ ] timecards information
   [ ] timeline?
-  [ ] logout
-  [ ] manual refresh
   [ ] sound alert
   [ ] configs (show seconds)
   [ ] handle extra time

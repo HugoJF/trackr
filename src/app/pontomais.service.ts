@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {PontomaisCredentials, Response} from "../types";
 import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
+import {Subject} from "rxjs";
 import {Router} from "@angular/router";
 import {format} from 'date-fns';
 
@@ -10,21 +10,22 @@ import {format} from 'date-fns';
 })
 export class PontomaisService {
   private credentials?: PontomaisCredentials;
+  readonly response: Subject<Response> = new Subject<Response>();
 
   constructor(private readonly http: HttpClient, private readonly router: Router) {
   }
 
-  request(): Observable<Response> {
+  request(): void {
     const date = format(new Date, 'yyyy-L-dd');
     const url = `https://api.pontomais.com.br/api/time_card_control/current/work_days/${date}`;
 
-    return this.http.get<Response>(url, {
+    this.http.get<Response>(url, {
       headers: {
         'access-token': this.credentials!.token,
         'client': this.credentials!.client,
         'uid': this.credentials!.uid,
       }
-    })
+    }).subscribe(this.response);
   }
 
   hasCredentials(): boolean {
