@@ -1,7 +1,7 @@
 <div
   class="flex justify-center px-3 py-2 border-2 border-blue-800 rounded"
 >
-  <h2 class="text-blue-600 font-bold">{{period[0].time}}</h2>
-  <span *ngIf="period[1]" class="mx-4 text-blue-600">—</span>
-  <h2 *ngIf="period[1]" class="text-blue-600 font-bold">{{period[1].time}}</h2>
+  <h2 class="text-blue-600 font-bold">{{from | date:'HH:mm'}}</h2>
+  <span *ngIf="to" class="mx-4 text-blue-600">—</span>
+  <h2 *ngIf="to" class="text-blue-600 font-bold">{{to | date:'HH:mm'}}</h2>
 </div>
