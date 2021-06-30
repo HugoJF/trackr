@@ -13,13 +13,13 @@ import {zonedTimeToUtc} from "date-fns-tz";
   templateUrl: './dashboard.component.html'
 })
 export class DashboardComponent implements OnInit, OnDestroy {
-  loaded = false;
   shiftDuration = 0;
   shiftWorked = 0;
   shiftProgress = 0;
 
   distance = '';
 
+  cards: TimeCard[] = [];
   periods: TimeCard[][] = [];
 
   response?: Response;
@@ -51,7 +51,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   boot() {
     this.shiftDuration = this.response!.work_day.shift_time;
-    this.periods = _.chunk(this.response!.work_day.time_cards, 2);
+    this.cards = this.response!.work_day.time_cards;
+    this.periods = _.chunk(this.cards, 2);
   }
 
   tick() {

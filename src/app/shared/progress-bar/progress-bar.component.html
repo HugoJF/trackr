@@ -1,0 +1,21 @@
+<div class="relative flex w-full mt-24 mb-16 shadow-lg">
+  <!-- Left bar -->
+  <div
+    [style]="{width: progress * 100 + '%'}"
+    class="relative duration-500 flex items-center justify-end h-12 bg-blue-800 border-b-4 border-black rounded-l"
+  >
+    <div
+      class="transform translate-x-[2px] absolute bottom-full text-gray-200 text-lg border-r-[2px] border-gray-200"
+    >
+      <p
+        [class.translate-x-full]="progress < .50"
+        class="block duration-150 transform flex items-center px-2 py-1 space-x-1"
+      >
+        <ng-content></ng-content>
+      </p>
+    </div>
+  </div>
+
+  <!-- Right bar -->
+  <div class="flex-grow bg-gray-200 border-b-4 border-gray-400 rounded-r"></div>
+</div>

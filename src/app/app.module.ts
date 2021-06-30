@@ -5,26 +5,23 @@ import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {LoginComponent} from './login/login.component';
 import {DashboardComponent} from './dashboard/dashboard.component';
-import {InputComponent} from "./shared/input/input.component";
-import {FieldComponent} from "./shared/field/field.component";
 import {ReactiveFormsModule} from "@angular/forms";
-import {TitleComponent} from "./shared/title/title.component";
 import {HttpClientModule} from "@angular/common/http";
+import {HeaderComponent} from './header/header.component';
+import {SharedModule} from "./shared/shared.module";
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     DashboardComponent,
-    InputComponent,
-    FieldComponent,
-    TitleComponent
+    HeaderComponent,
   ],
   imports: [
     BrowserModule,
-    ReactiveFormsModule,
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,
+    SharedModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
