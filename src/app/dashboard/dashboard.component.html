@@ -1,21 +1,29 @@
 <div class="py-6 flex flex-col justify-center">
-  <!-- Alert when work time is not being counted -->
-  <app-alert *ngIf="cards.length % 2 === 0">
-    Você não está em uma jornada! Seu tempo não está sendo contabilizado.
-  </app-alert>
-
-  <!-- Progress bar -->
-  <app-progress-bar [progress]="shiftProgress">
-    <span class="font-bold">{{shiftProgress * 100 | number: '1.0-0'}}%</span>
-    <span class="mx-1 text-sm text-gray-400">—</span>
-    <span class="text-sm text-gray-400 whitespace-nowrap">{{distance}}</span>
-  </app-progress-bar>
-
-  <!-- Card deck -->
-  <div class="flex flex-col sm:flex-row items-center justify-center py-4 space-y-4 sm:space-y-0 sm:space-x-8">
-    <app-time-card
-      *ngFor="let period of periods"
-      [period]="period"
-    ></app-time-card>
+  <!-- Loading state -->
+  <div class="flex flex-col items-center space-y-8 mx-auto max-w-[32rem]" *ngIf="loading">
+    <app-title>Carregando dados...</app-title>
+    <app-aircraft></app-aircraft>
   </div>
+
+  <ng-template [ngIf]="!loading">
+    <!-- Alert when work time is not being counted -->
+    <app-alert *ngIf="cards.length % 2 === 0">
+      Você não está em uma jornada! Seu tempo não está sendo contabilizado.
+    </app-alert>
+
+    <!-- Progress bar -->
+    <app-progress-bar [progress]="shiftProgress">
+      <span class="font-bold">{{shiftProgress * 100 | number: '1.0-0'}}%</span>
+      <span class="mx-1 text-sm text-gray-400">—</span>
+      <span class="text-sm text-gray-400 whitespace-nowrap">{{distance}}</span>
+    </app-progress-bar>
+
+    <!-- Card deck -->
+    <div class="flex flex-col sm:flex-row items-center justify-center py-4 space-y-4 sm:space-y-0 sm:space-x-8">
+      <app-time-card
+        *ngFor="let period of periods"
+        [period]="period"
+      ></app-time-card>
+    </div>
+  </ng-template>
 </div>

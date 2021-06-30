@@ -7,6 +7,7 @@ import {ProgressBarComponent} from "./progress-bar/progress-bar.component";
 import {AlertComponent} from "./alert/alert.component";
 import {TimeCardComponent} from "./time-card/time-card.component";
 import {ReactiveFormsModule} from "@angular/forms";
+import { AircraftComponent } from './aircraft/aircraft.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import {ReactiveFormsModule} from "@angular/forms";
     TitleComponent,
     ProgressBarComponent,
     AlertComponent,
-    TimeCardComponent
+    TimeCardComponent,
+    AircraftComponent
   ],
   exports: [
     InputComponent,
@@ -23,7 +25,8 @@ import {ReactiveFormsModule} from "@angular/forms";
     TitleComponent,
     ProgressBarComponent,
     AlertComponent,
-    TimeCardComponent
+    TimeCardComponent,
+    AircraftComponent
   ],
   imports: [
     CommonModule,

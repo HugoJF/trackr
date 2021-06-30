@@ -22,6 +22,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   cards: TimeCard[] = [];
   periods: TimeCard[][] = [];
 
+  loading: boolean = true;
+
   response?: Response;
   notifier = new Subject;
 
@@ -40,6 +42,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.response = data;
         this.boot();
         this.tick();
+        this.loading = false;
       });
 
   }
