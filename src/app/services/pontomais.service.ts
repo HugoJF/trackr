@@ -1,19 +1,23 @@
 import {Injectable, OnDestroy} from '@angular/core';
-import {PontomaisCredentials, Response} from "../types";
+import {Response} from "../../types";
 import {HttpClient} from "@angular/common/http";
 import {Subject} from "rxjs";
 import {Router} from "@angular/router";
 import {format} from 'date-fns';
 import {take} from "rxjs/operators";
+import {CredentialsRepositoryService} from "./credentials-repository.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class PontomaisService implements OnDestroy {
-  private credentials?: PontomaisCredentials;
   readonly response: Subject<Response> = new Subject<Response>();
 
-  constructor(private readonly http: HttpClient, private readonly router: Router) {
+  constructor(
+    private readonly http: HttpClient,
+    private readonly router: Router,
+    private readonly credentials: CredentialsRepositoryService
+  ) {
   }
 
   ngOnDestroy(): void {
@@ -25,9 +29,9 @@ export class PontomaisService implements OnDestroy {
     const url = `https://api.pontomais.com.br/api/time_card_control/current/work_days/${date}`;
     const options = {
       headers: {
-        'access-token': this.credentials!.token,
-        'client': this.credentials!.client,
-        'uid': this.credentials!.uid,
+        'access-token': this.credentials.getCredentials()!.token,
+        'client': this.credentials.getCredentials()!.client,
+        'uid': this.credentials.getCredentials()!.uid,
       }
     };
 
@@ -40,25 +44,4 @@ export class PontomaisService implements OnDestroy {
       });
   }
 
-  hasCredentials(): boolean {
-    const storage = localStorage.getItem('credentials');
-
-    if (storage) {
-      this.credentials = JSON.parse(storage);
-    }
-
-    return Boolean(this.credentials);
-  }
-
-  clearCredentials(): void {
-    localStorage.removeItem('credentials');
-    this.credentials = undefined;
-    this.router.navigateByUrl('login');
-  }
-
-  setCredentials(credentials: PontomaisCredentials) {
-    localStorage.setItem('credentials', JSON.stringify(credentials));
-
-    this.credentials = credentials;
-  }
 }

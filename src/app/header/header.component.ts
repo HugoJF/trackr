@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {PontomaisService} from "../pontomais.service";
+import {PontomaisService} from "../services/pontomais.service";
 import {Router} from "@angular/router";
+import {CredentialsRepositoryService} from "../services/credentials-repository.service";
 
 @Component({
   selector: 'app-header',
@@ -9,7 +10,11 @@ import {Router} from "@angular/router";
 export class HeaderComponent implements OnInit {
   now!: Date;
 
-  constructor(private api: PontomaisService, private router: Router) {
+  constructor(
+    private api: PontomaisService,
+    private credentials: CredentialsRepositoryService,
+    private router: Router
+  ) {
   }
 
   ngOnInit(): void {
@@ -21,7 +26,7 @@ export class HeaderComponent implements OnInit {
   }
 
   logout(): void {
-    this.api.clearCredentials();
+    this.credentials.clearCredentials();
     this.router.navigateByUrl('login');
   }
 }

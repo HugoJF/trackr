@@ -8,6 +8,8 @@ import {DashboardComponent} from './dashboard/dashboard.component';
 import {HttpClientModule} from "@angular/common/http";
 import {HeaderComponent} from './header/header.component';
 import {SharedModule} from "./shared/shared.module";
+import {LocalstorageCredentialsRepositoryService} from "./services/localstorage-credentials-repository.service";
+import {CredentialsRepositoryService} from "./services/credentials-repository.service";
 
 @NgModule({
   declarations: [
@@ -22,7 +24,12 @@ import {SharedModule} from "./shared/shared.module";
     AppRoutingModule,
     SharedModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: CredentialsRepositoryService,
+      useExisting: LocalstorageCredentialsRepositoryService
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

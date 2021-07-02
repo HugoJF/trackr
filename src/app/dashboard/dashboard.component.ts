@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Response, TimeCard} from "../../types";
 import {interval, Subject} from "rxjs";
 import {Title} from "@angular/platform-browser";
-import {PontomaisService} from "../pontomais.service";
+import {PontomaisService} from "../services/pontomais.service";
 import {takeUntil} from "rxjs/operators";
 import * as _ from "lodash";
 import {addSeconds, differenceInSeconds, formatDistance} from "date-fns";
