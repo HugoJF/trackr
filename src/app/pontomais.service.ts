@@ -1,31 +1,43 @@
-import {Injectable} from '@angular/core';
+import {Injectable, OnDestroy} from '@angular/core';
 import {PontomaisCredentials, Response} from "../types";
 import {HttpClient} from "@angular/common/http";
 import {Subject} from "rxjs";
 import {Router} from "@angular/router";
 import {format} from 'date-fns';
+import {take} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
 })
-export class PontomaisService {
+export class PontomaisService implements OnDestroy {
   private credentials?: PontomaisCredentials;
   readonly response: Subject<Response> = new Subject<Response>();
 
   constructor(private readonly http: HttpClient, private readonly router: Router) {
   }
 
+  ngOnDestroy(): void {
+    this.response.complete();
+  }
+
   request(): void {
     const date = format(new Date, 'yyyy-L-dd');
     const url = `https://api.pontomais.com.br/api/time_card_control/current/work_days/${date}`;
-
-    this.http.get<Response>(url, {
+    const options = {
       headers: {
         'access-token': this.credentials!.token,
         'client': this.credentials!.client,
         'uid': this.credentials!.uid,
       }
-    }).subscribe(this.response);
+    };
+
+    this
+      .http
+      .get<Response>(url, options)
+      .pipe(take(1))
+      .subscribe(data => {
+        this.response.next(data)
+      });
   }
 
   hasCredentials(): boolean {

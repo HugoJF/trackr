@@ -39,6 +39,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       .pontomais
       .response
       .subscribe(data => {
+        console.log('Response received');
         this.response = data;
         this.boot();
         this.tick();
