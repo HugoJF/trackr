@@ -22,8 +22,21 @@
     [control]="uid"
   ></app-input>
 
-  <div class="pt-4">
+  <div class="py-4">
     <button (click)="login()" class="duration-150 w-full py-3 text-white bg-blue-800 hover:bg-blue-700 rounded">Go to
-      dashboard</button>
+      dashboard
+    </button>
   </div>
+
+  <code id="code" class="p-4 text-sm text-gray-200 bg-gray-800 break-all rounded">
+    {{code}}
+  </code>
+
+  <app-input
+    name="quick-setup"
+    label="Quick setup"
+    type="text"
+    [control]="quicksetup"
+  ></app-input>
+
 </div>
