@@ -1,12 +1,12 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
+import {differenceInSeconds} from "date-fns";
 import {Response, TimeCard} from "../../types";
 import {interval, Subject} from "rxjs";
-import {Title} from "@angular/platform-browser";
 import {PontomaisService} from "../services/pontomais.service";
-import {takeUntil} from "rxjs/operators";
-import * as _ from "lodash";
-import {addSeconds, differenceInSeconds, formatDistance} from "date-fns";
 import {zonedTimeToUtc} from "date-fns-tz";
+import {takeUntil} from "rxjs/operators";
+import {Title} from "@angular/platform-browser";
+import * as _ from "lodash";
 
 @Component({
   selector: 'app-dashboard',
@@ -21,6 +21,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   cards: TimeCard[] = [];
   periods: TimeCard[][] = [];
+
+  inShift = false;
 
   loading: boolean = true;
 
@@ -39,7 +41,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
       .pontomais
       .response
       .subscribe(data => {
-        console.log('Response received');
         this.response = data;
         this.boot();
         this.tick();
@@ -58,6 +59,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.shiftDuration = this.response!.work_day.shift_time;
     this.cards = this.response!.work_day.time_cards;
     this.periods = _.chunk(this.cards, 2);
+    this.inShift = this.cards.length % 2 === 0;
   }
 
   tick() {
@@ -72,7 +74,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   private updateTitle() {
-    this.title.setTitle(`${Math.round(this.shiftProgress * 100)}% - ${this.distance}`);
+    this.title.setTitle([
+      this.inShift && '!',
+      Math.round(this.shiftProgress * 100),
+      '% - ',
+      this.distance
+    ].filter(Boolean).join(''));
   }
 
   cardToSecondsWorked(period: TimeCard[]) {
@@ -82,15 +89,19 @@ export class DashboardComponent implements OnInit, OnDestroy {
     return differenceInSeconds(to, from);
   }
 
-
   cardToDate(card: TimeCard) {
     return zonedTimeToUtc(`${card.date}T${card.time}:00`, 'America/Sao_Paulo');
   }
 
   recomputeDistance() {
-    const from = new Date;
-    const to = addSeconds(new Date, this.shiftDuration - this.shiftWorked);
+    const secondsRemaining = this.shiftDuration - this.shiftWorked;
+    const minutesRemaining = secondsRemaining / 60;
+    const extra = minutesRemaining < 0 ? '+' : '';
 
-    this.distance = formatDistance(from, to);
+    if (minutesRemaining < 100) {
+      this.distance = extra + Math.round(minutesRemaining) + 'min';
+    } else {
+      this.distance = extra + Math.round(minutesRemaining / 60) + 'h';
+    }
   }
 }
