@@ -95,7 +95,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   recomputeDistance() {
     const secondsRemaining = this.shiftDuration - this.shiftWorked;
-    const minutesRemaining = secondsRemaining / 60;
+    const minutesRemaining = Math.abs(secondsRemaining / 60);
     const extra = minutesRemaining < 0 ? '+' : '';
 
     if (minutesRemaining < 100) {
