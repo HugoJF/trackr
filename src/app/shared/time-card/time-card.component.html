@@ -1,7 +1,14 @@
 <div
-  class="flex justify-center px-3 py-2 border-2 border-blue-800 rounded"
+  class="flex justify-center mx-4 px-3 py-2 border-2 border-blue-800 rounded"
 >
   <h2 class="text-blue-600 font-bold">{{from | date:'HH:mm'}}</h2>
   <span *ngIf="to" class="mx-4 text-blue-600">—</span>
   <h2 *ngIf="to" class="text-blue-600 font-bold">{{to | date:'HH:mm'}}</h2>
+</div>
+
+<div
+  *ngIf="interval"
+  class="flex justify-center mx-1 px-3 py-2 border-2 border-green-800 rounded"
+>
+  <h2 class="text-green-600 font-bold">{{interval}}min</h2>
 </div>

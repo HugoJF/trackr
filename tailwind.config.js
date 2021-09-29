@@ -2,6 +2,7 @@ module.exports = {
   mode: 'jit',
   purge: [
     './src/**/*.html',
+    './src/**/*.ts',
   ],
   future: {
     // removeDeprecatedGapUtilities: true,

@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {differenceInSeconds} from "date-fns";
+import {differenceInMinutes, differenceInSeconds} from "date-fns";
 import {Response, TimeCard} from "../../types";
 import {interval, Subject} from "rxjs";
 import {PontomaisService} from "../services/pontomais.service";
@@ -103,5 +103,22 @@ export class DashboardComponent implements OnInit, OnDestroy {
     } else {
       this.distance = extra + Math.round(minutesRemaining / 60) + 'h';
     }
+  }
+
+  getInterval(i: number): number | undefined {
+    const current = this.periods[i];
+    const next = this.periods[i + 1];
+
+    if (!next) {
+      return undefined;
+    }
+
+    const end = current[1];
+    const start = next[0];
+
+    const endDate = zonedTimeToUtc(`${end.date}T${end.time}:00`, 'America/Sao_Paulo');
+    const startDate = zonedTimeToUtc(`${start.date}T${start.time}:00`, 'America/Sao_Paulo');
+
+    return differenceInMinutes(startDate, endDate);
   }
 }

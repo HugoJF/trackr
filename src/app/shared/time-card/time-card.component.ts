@@ -4,10 +4,12 @@ import {zonedTimeToUtc} from "date-fns-tz";
 
 @Component({
   selector: 'app-time-card[period]',
-  templateUrl: './time-card.component.html'
+  templateUrl: './time-card.component.html',
+  host: {class: 'contents'}
 })
 export class TimeCardComponent implements OnInit {
   @Input() period!: TimeCard[];
+  @Input() interval?: number;
 
   from!: Date;
   to?: Date;

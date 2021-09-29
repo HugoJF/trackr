@@ -19,10 +19,11 @@
     </app-progress-bar>
 
     <!-- Card deck -->
-    <div class="flex flex-col sm:flex-row items-center justify-center py-4 space-y-4 sm:space-y-0 sm:space-x-8">
+    <div class="flex flex-col sm:flex-row items-center justify-center py-4">
       <app-time-card
-        *ngFor="let period of periods"
+        *ngFor="let period of periods; let i = index"
         [period]="period"
+        [interval]="getInterval(i)"
       ></app-time-card>
     </div>
   </ng-template>
