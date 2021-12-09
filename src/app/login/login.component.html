@@ -5,26 +5,31 @@
     name="token"
     label="Access token"
     type="text"
-    [control]="token"
+    [control]="get('token')"
   ></app-input>
 
   <app-input
     name="client"
     label="Client ID"
     type="text"
-    [control]="client"
+    [control]="get('client')"
   ></app-input>
 
   <app-input
     name="uid"
     label="UID"
     type="uid"
-    [control]="uid"
+    [control]="get('uid')"
   ></app-input>
 
   <div class="py-4">
-    <button (click)="login()" class="duration-150 w-full py-3 text-white bg-blue-800 hover:bg-blue-700 rounded">Go to
-      dashboard
+    <button
+      [disabled]="form.invalid"
+      (click)="login()"
+      class="duration-150 w-full py-3 text-white bg-blue-800 hover:bg-blue-700 rounded"
+      [class.opacity-50]="form.invalid"
+    >
+      Go to dashboard
     </button>
   </div>
 
@@ -36,7 +41,7 @@
     name="quick-setup"
     label="Quick setup"
     type="text"
-    [control]="quicksetup"
+    [control]="get('quicksetup')"
   ></app-input>
 
 </div>

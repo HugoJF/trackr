@@ -18,7 +18,7 @@ export class InputComponent {
   }
 
   canDisplayErrors() {
-    return this.hasBlurred && (this.control.touched || this.control.dirty);
+    return this.hasBlurred && (!this.control.pristine || this.control.dirty);
   }
 
   getErrorMessage() {
@@ -27,7 +27,7 @@ export class InputComponent {
     }
 
     if (this.control.errors?.required) {
-      return `Campo ${this.name} é obrigatório'!`;
+      return `Campo ${this.name} é obrigatório!`;
     }
 
     if (this.control.errors?.minlength) {

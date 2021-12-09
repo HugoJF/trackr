@@ -1,29 +1,45 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {PontomaisService} from "../services/pontomais.service";
 import {Router} from "@angular/router";
-import {FormControl, Validators} from "@angular/forms";
 import {CredentialsRepositoryService} from "../services/credentials-repository.service";
+import {SuperFormBuilder} from "../super-form-builder";
+import {FormControl, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html'
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
   code = "const a=JSON.parse(localStorage.getItem('auth_headers'));btoa(JSON.stringify({token:a['access-token'],client:a.client,uid:a.uid}));"
 
-  token = new FormControl('', [
-    Validators.required,
-  ]);
+  // X disabled declarativo
+  // required declarativo
+  // valores iniciais vindo de um objeto
+  // um jeito de minimizar repeticao de validators
 
-  client = new FormControl('', [
-    Validators.required,
-  ]);
+  formBuilder = new SuperFormBuilder({
+    token: {
+      required: true,
+      disabled: form => form.quicksetup,
+    },
+    client: {
+      required: true,
+      disabled: form => form.quicksetup,
+    },
+    uid: {
+      required: true,
+      disabled: form => form.quicksetup,
+    },
+    quicksetup: {
+      disabled: form => form.uid || form.token || form.client,
+      // flags: {
+      //   valid: form => form.client === 'me',
+      //   tamanho: form => form?.client?.length ?? 0,
+      // }
+    },
+  })
 
-  uid = new FormControl('', [
-    Validators.required,
-  ]);
-
-  quicksetup = new FormControl('', []);
+  form = this.formBuilder.getFormGroup()
 
   constructor(
     private api: PontomaisService,
@@ -32,28 +48,41 @@ export class LoginComponent implements OnInit {
   ) {
   }
 
+  ngOnDestroy(): void {
+    this.formBuilder.unsubscribe();
+  }
+
+  get(name: string): FormControl {
+    return this.form.get(name) as FormControl;
+  }
+
   ngOnInit(): void {
     if (this.credentials.hasCredentials()) {
       this.router.navigateByUrl('/')
     }
-    this.quicksetup.valueChanges.subscribe(value => {
+    this.form.controls.quicksetup.valueChanges.subscribe(value => {
       try {
         const {token, client, uid} = JSON.parse(atob(value))
         if (!token || !client || !uid) throw new Error;
-        this.client.setValue(client);
-        this.uid.setValue(uid);
-        this.token.setValue(token);
+        this.form.controls.client.setValue(client);
+        this.form.controls.uid.setValue(uid);
+        this.form.controls.token.setValue(token);
       } catch (e) {
-        console.error(e)
       }
     })
   }
 
   login(): void {
+    this.form.updateValueAndValidity();
+
+    if (this.form.invalid) {
+      return
+    }
+
     this.credentials.setCredentials({
-      uid: this.uid.value.toString(),
-      client: this.client.value.toString(),
-      token: this.token.value.toString(),
+      uid: this.form.controls.uid.value.toString(),
+      client: this.form.controls.client.value.toString(),
+      token: this.form.controls.token.value.toString(),
     });
     this.router.navigateByUrl('');
   }
