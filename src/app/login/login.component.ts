@@ -12,10 +12,10 @@ import {FormControl, Validators} from "@angular/forms";
 export class LoginComponent implements OnInit, OnDestroy {
   code = "const a=JSON.parse(localStorage.getItem('auth_headers'));btoa(JSON.stringify({token:a['access-token'],client:a.client,uid:a.uid}));"
 
-  // X disabled declarativo
-  // required declarativo
-  // valores iniciais vindo de um objeto
-  // um jeito de minimizar repeticao de validators
+  // tempo restante com minutos
+  // até que horas preciso ir
+  // edição de pontos
+  // 00.0%
 
   formBuilder = new SuperFormBuilder({
     token: {
@@ -63,10 +63,12 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.form.controls.quicksetup.valueChanges.subscribe(value => {
       try {
         const {token, client, uid} = JSON.parse(atob(value))
-        if (!token || !client || !uid) throw new Error;
-        this.form.controls.client.setValue(client);
-        this.form.controls.uid.setValue(uid);
-        this.form.controls.token.setValue(token);
+        if (!token || !client || !uid) {
+          throw new Error;
+        }
+        this.form.setValue({
+          client, uid, token,
+        })
       } catch (e) {
       }
     })
@@ -79,11 +81,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       return
     }
 
-    this.credentials.setCredentials({
-      uid: this.form.controls.uid.value.toString(),
-      client: this.form.controls.client.value.toString(),
-      token: this.form.controls.token.value.toString(),
-    });
+    this.credentials.setCredentials(this.form.value);
     this.router.navigateByUrl('');
   }
 }

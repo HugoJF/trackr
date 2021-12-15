@@ -7,13 +7,13 @@
 
   <ng-template [ngIf]="!loading">
     <!-- Alert when work time is not being counted -->
-    <app-alert *ngIf="cards.length % 2 === 0">
+    <app-alert *ngIf="!inShift">
       Você não está em uma jornada! Seu tempo não está sendo contabilizado.
     </app-alert>
 
     <!-- Progress bar -->
-    <app-progress-bar [progress]="shiftProgress">
-      <span class="font-bold">{{shiftProgress * 100 | number: '1.0-0'}}%</span>
+    <app-progress-bar [progress]="shiftProgress" (click)="addTime()">
+      <span class="font-bold">{{shiftProgress * 100 | number: '1.1-1'}}%</span>
       <span class="mx-1 text-sm text-gray-400">—</span>
       <span class="text-sm text-gray-400 whitespace-nowrap">{{distance}}</span>
     </app-progress-bar>
@@ -22,8 +22,10 @@
     <div class="flex flex-col sm:flex-row items-center justify-center py-4">
       <app-time-card
         *ngFor="let period of periods; let i = index"
+        (click)="fixTime()"
         [period]="period"
         [interval]="getInterval(i)"
+        [date]="this.getDate()"
       ></app-time-card>
     </div>
   </ng-template>

@@ -10,6 +10,7 @@ import {HeaderComponent} from './header/header.component';
 import {SharedModule} from "./shared/shared.module";
 import {LocalstorageCredentialsRepositoryService} from "./services/localstorage-credentials-repository.service";
 import {CredentialsRepositoryService} from "./services/credentials-repository.service";
+import {DatePipe} from "@angular/common";
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import {CredentialsRepositoryService} from "./services/credentials-repository.se
     SharedModule,
   ],
   providers: [
+    DatePipe,
     {
       provide: CredentialsRepositoryService,
       useExisting: LocalstorageCredentialsRepositoryService
